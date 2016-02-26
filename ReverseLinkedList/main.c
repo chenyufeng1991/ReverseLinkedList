@@ -97,10 +97,10 @@ Node *TailInsert(Node *pNode){
     return pNode;
 }
 
-
+//这个就是逆序后的链表
 Node *pReverseList;
 
-//头插法
+//头插法建立逆序后的链表
 void HeadInsert(Node *pInsert){
     if (pReverseList == NULL) {
         pReverseList = pInsert;
@@ -113,28 +113,33 @@ void HeadInsert(Node *pInsert){
 
 //遍历链表并使用头插法构建新链表
 void scanList(Node *pNode){
-
     //首先判断原链表是否为空；
+    if (pNode == NULL) {
+        printf("%s函数执行，原链表为空，无法逆序输出\n",__FUNCTION__);
+    }else{
 
-    Node *pMove;
-    Node *pInsert;  //该节点为新建的插入节点
-    pInsert = (Node *)malloc(sizeof(Node));
-    memset(pInsert, 0, sizeof(Node));
-    pInsert->next = NULL;
-
-    pMove = pNode;
-    while (pMove != NULL) {
-
-        pInsert->element = pMove->element;
-        HeadInsert(pInsert);
-
+        Node *pMove;
+        Node *pInsert;  //该节点为新建的插入节点
         pInsert = (Node *)malloc(sizeof(Node));
         memset(pInsert, 0, sizeof(Node));
         pInsert->next = NULL;
-        pMove = pMove->next;
-    }
 
-    printf("%s函数执行，逆序链表完成\n",__FUNCTION__);
+        pMove = pNode;
+        while (pMove != NULL) {
+
+            //遍历到每一个节点后，调用头插法函数插入新链表
+            pInsert->element = pMove->element;
+            HeadInsert(pInsert);
+
+            //为插入的下一个节点分配空间
+            pInsert = (Node *)malloc(sizeof(Node));
+            memset(pInsert, 0, sizeof(Node));
+            pInsert->next = NULL;
+            pMove = pMove->next;
+        }
+        
+        printf("%s函数执行，逆序链表完成\n",__FUNCTION__);
+    }
 }
 
 int main(int argc, const char * argv[]) {
@@ -150,7 +155,7 @@ int main(int argc, const char * argv[]) {
 
     //开始遍历链表，遍历的过程中构建新链表
     scanList(pList);
-    printf("逆序后的链表为：");
+    printf("逆序后的链表为：\n");
     printList(pReverseList);
 
     return 0;
