@@ -1,2 +1,2 @@
 # ReverseLinkedList
-逆序输出链表的节点
+逆序输出单链表的节点
